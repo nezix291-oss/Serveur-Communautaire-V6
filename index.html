@@ -1,1 +1,1698 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Serveur Communautaire | FR - Shop & Economy</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #00ffff;
+    --secondary: #5865F2;
+    --accent: #ff00ff;
+    --dark: #0a0a0f;
+    --darker: #050508;
+    --card-bg: rgba(26, 26, 46, 0.8);
+    --gold: #ffd700;
+}
+
+body {
+    font-family: 'Rajdhani', sans-serif;
+    background: var(--darker);
+    color: white;
+    overflow-x: hidden;
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 0, 255, 0.1) 0%, transparent 50%);
+}
+
+/* Navigation */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(10, 10, 15, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 15px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    border-bottom: 2px solid var(--primary);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+}
+
+.logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--primary);
+    text-shadow: 0 0 10px var(--primary);
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+    position: relative;
+}
+
+.nav-links a:hover {
+    color: var(--primary);
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: 0.3s;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: rgba(0, 255, 255, 0.1);
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: 1px solid var(--primary);
+}
+
+.coins {
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 18px;
+}
+
+/* Auth Section */
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 100px 20px;
+    background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+}
+
+.auth-box {
+    background: var(--card-bg);
+    padding: 50px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 450px;
+    border: 2px solid var(--primary);
+    box-shadow: 0 0 40px rgba(0, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.auth-tabs {
+    display: flex;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.auth-tab {
+    flex: 1;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    transition: 0.3s;
+}
+
+.auth-tab.active {
+    background: var(--primary);
+    color: var(--dark);
+}
+
+.input-group {
+    margin-bottom: 25px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(0, 255, 255, 0.3);
+    border-radius: 10px;
+    color: white;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+.btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 255, 255, 0.4);
+}
+
+.btn-small {
+    width: auto;
+    padding: 8px 15px;
+    font-size: 12px;
+}
+
+.btn-admin {
+    background: linear-gradient(45deg, var(--gold), #ff6b00);
+}
+
+/* Main Content */
+.main-content {
+    display: none;
+    padding-top: 100px;
+}
+
+.section {
+    padding: 80px 50px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 42px;
+    color: var(--primary);
+    text-align: center;
+    margin-bottom: 50px;
+    text-shadow: 0 0 20px var(--primary);
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    margin: 20px auto;
+    border-radius: 2px;
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 100px 20px;
+    background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1));
+    border-radius: 30px;
+    margin-bottom: 60px;
+    border: 2px solid rgba(0, 255, 255, 0.2);
+}
+
+.hero h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 56px;
+    color: var(--primary);
+    text-shadow: 0 0 30px var(--primary);
+    margin-bottom: 20px;
+    animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+    0%, 100% { text-shadow: 0 0 30px var(--primary); }
+    50% { text-shadow: 0 0 50px var(--primary), 0 0 70px var(--accent); }
+}
+
+.hero .subtitle {
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 40px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.hero-btn {
+    padding: 18px 40px;
+    font-size: 18px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.hero-btn-primary {
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    color: white;
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
+}
+
+.hero-btn-primary:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 40px rgba(0, 255, 255, 0.6);
+}
+
+.hero-btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 2px solid var(--primary);
+}
+
+.hero-btn-secondary:hover {
+    background: rgba(0, 255, 255, 0.2);
+    transform: translateY(-5px);
+}
+
+/* Shop Grid */
+.shop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.shop-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 30px;
+    border: 2px solid rgba(0, 255, 255, 0.2);
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.shop-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+    transform: rotate(45deg);
+    transition: 0.5s;
+    opacity: 0;
+}
+
+.shop-card:hover::before {
+    animation: shine 0.5s ease-in-out;
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
+}
+
+.shop-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary);
+    box-shadow: 0 20px 40px rgba(0, 255, 255, 0.3);
+}
+
+.role-icon {
+    font-size: 60px;
+    margin-bottom: 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.shop-card h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: var(--primary);
+    text-align: center;
+}
+
+.shop-card .price {
+    font-size: 32px;
+    color: var(--gold);
+    font-weight: 700;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.shop-card .description {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 20px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+/* Features */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.feature-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 40px;
+    border: 2px solid rgba(0, 255, 255, 0.2);
+    transition: 0.3s;
+    text-align: center;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary);
+    box-shadow: 0 20px 40px rgba(0, 255, 255, 0.3);
+}
+
+.feature-icon {
+    font-size: 50px;
+    margin-bottom: 20px;
+    color: var(--primary);
+}
+
+.feature-card h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: var(--primary);
+}
+
+.feature-card p {
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
+}
+
+/* Leaderboard */
+.leaderboard {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 40px;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    margin-top: 40px;
+}
+
+.leaderboard-item {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    margin-bottom: 15px;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+.leaderboard-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(10px);
+}
+
+.leaderboard-rank {
+    font-size: 32px;
+    font-weight: 900;
+    margin-right: 20px;
+    width: 50px;
+    text-align: center;
+}
+
+.leaderboard-rank.gold { color: var(--gold); text-shadow: 0 0 20px var(--gold); }
+.leaderboard-rank.silver { color: #c0c0c0; text-shadow: 0 0 20px #c0c0c0; }
+.leaderboard-rank.bronze { color: #cd7f32; text-shadow: 0 0 20px #cd7f32; }
+
+.leaderboard-info {
+    flex: 1;
+}
+
+.leaderboard-name {
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.leaderboard-stats {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+}
+
+/* Mystery Box */
+.mystery-box {
+    background: linear-gradient(135deg, rgba(255, 0, 255, 0.2), rgba(0, 255, 255, 0.2));
+    border: 3px solid var(--accent);
+    grid-column: span 2;
+    text-align: center;
+}
+
+.mystery-box h3 {
+    color: var(--accent);
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.box-animation {
+    width: 200px;
+    height: 200px;
+    margin: 30px auto;
+    position: relative;
+    cursor: pointer;
+}
+
+.box {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80px;
+    box-shadow: 0 0 40px rgba(255, 0, 255, 0.5);
+    transition: 0.3s;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+.box.opening {
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-10deg); }
+    75% { transform: rotate(10deg); }
+}
+
+/* Wheel Container */
+.wheel-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.wheel-wrapper {
+    position: relative;
+    width: 500px;
+    height: 500px;
+}
+
+.wheel {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 10px solid var(--gold);
+    position: relative;
+    transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+    box-shadow: 0 0 60px rgba(255, 215, 0, 0.5);
+    overflow: hidden;
+}
+
+.wheel-segment {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    transform-origin: right bottom;
+    left: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    color: white;
+    text-shadow: 0 0 10px black;
+}
+
+.wheel-pointer {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 60px;
+    background: var(--accent);
+    clip-path: polygon(50% 100%, 0 0, 100% 0);
+    z-index: 10;
+    filter: drop-shadow(0 0 10px var(--accent));
+}
+
+.wheel-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    background: var(--gold);
+    border-radius: 50%;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    color: var(--dark);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+}
+
+.spin-btn {
+    margin-top: 40px;
+    padding: 20px 60px;
+    font-size: 24px;
+    background: linear-gradient(45deg, var(--accent), var(--primary));
+    border: none;
+    border-radius: 50px;
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 0 30px rgba(255, 0, 255, 0.5);
+    transition: 0.3s;
+}
+
+.spin-btn:hover:not(:disabled) {
+    transform: scale(1.1);
+    box-shadow: 0 0 50px rgba(255, 0, 255, 0.8);
+}
+
+.spin-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.close-wheel {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    font-size: 40px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.close-wheel:hover {
+    color: var(--accent);
+    transform: rotate(90deg);
+}
+
+/* Admin Panel */
+.admin-panel {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 40px;
+    border: 2px solid var(--gold);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.admin-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.admin-card h3 {
+    color: var(--gold);
+    margin-bottom: 20px;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.user-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.user-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    margin-bottom: 10px;
+    border-radius: 10px;
+    transition: 0.3s;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.user-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+}
+
+.user-info-admin {
+    flex: 1;
+    min-width: 200px;
+}
+
+.admin-badge {
+    background: var(--gold);
+    color: var(--dark);
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: 700;
+    margin-left: 8px;
+}
+
+.give-coins-form {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.give-coins-form input {
+    flex: 1;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--gold);
+    border-radius: 8px;
+    color: white;
+    font-family: 'Rajdhani', sans-serif;
+}
+
+/* Partners */
+.partners-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.partner-card {
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 15px;
+    text-align: center;
+    border: 2px solid rgba(0, 255, 255, 0.2);
+    transition: 0.3s;
+    text-decoration: none;
+    color: white;
+}
+
+.partner-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2);
+}
+
+.partner-card h4 {
+    color: var(--primary);
+    margin-bottom: 10px;
+    font-family: 'Orbitron', sans-serif;
+}
+
+/* Footer */
+footer {
+    background: var(--dark);
+    padding: 40px;
+    text-align: center;
+    border-top: 2px solid var(--primary);
+    margin-top: 100px;
+}
+
+.discord-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 40px;
+    background: var(--secondary);
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 700;
+    margin: 20px 0;
+    transition: 0.3s;
+    box-shadow: 0 0 20px rgba(88, 101, 242, 0.4);
+}
+
+.discord-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(88, 101, 242, 0.6);
+}
+
+/* Notifications */
+.notification {
+    position: fixed;
+    top: 100px;
+    right: 30px;
+    padding: 20px 30px;
+    background: var(--card-bg);
+    border-left: 4px solid var(--primary);
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    z-index: 3000;
+    transform: translateX(400px);
+    transition: 0.3s;
+    max-width: 400px;
+}
+
+.notification.show {
+    transform: translateX(0);
+}
+
+.notification.success {
+    border-left-color: #00ff00;
+}
+
+.notification.error {
+    border-left-color: #ff0000;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 15px 20px;
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .section {
+        padding: 40px 20px;
+    }
+    
+    .hero h1 {
+        font-size: 36px;
+    }
+    
+    .shop-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .mystery-box {
+        grid-column: span 1;
+    }
+    
+    .wheel-wrapper {
+        width: 300px;
+        height: 300px;
+    }
+    
+    .admin-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Loading Animation */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar" id="navbar" style="display: none;">
+    <div class="logo"><i class="fas fa-gamepad"></i> SERVEUR FR</div>
+    <div class="nav-links">
+        <a href="#accueil" onclick="showSection('accueil')">Accueil</a>
+        <a href="#shop" onclick="showSection('shop')">Boutique</a>
+        <a href="#box" onclick="showSection('box')">Box Mystère</a>
+        <a href="#staff" onclick="showSection('staff')">Staff</a>
+        <a href="#partners" onclick="showSection('partners')">Partenaires</a>
+        <div class="user-info">
+            <span id="username-display">User</span>
+            <span class="coins"><i class="fas fa-coins"></i> <span id="user-coins">0</span></span>
+            <button onclick="logout()" style="background: none; border: none; color: white; cursor: pointer; margin-left: 10px;">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- Auth Section -->
+<div class="auth-container" id="auth-container">
+    <div class="auth-box">
+        <div class="auth-tabs">
+            <button class="auth-tab active" onclick="switchTab('login')">Connexion</button>
+            <button class="auth-tab" onclick="switchTab('register')">Inscription</button>
+        </div>
+        
+        <form id="login-form" onsubmit="handleLogin(event)">
+            <div class="input-group">
+                <label>Nom d'utilisateur</label>
+                <input type="text" id="login-username" required placeholder="Entrez votre pseudo">
+            </div>
+            <div class="input-group">
+                <label>Mot de passe</label>
+                <input type="password" id="login-password" required placeholder="Entrez votre mot de passe">
+            </div>
+            <button type="submit" class="btn">Se connecter</button>
+        </form>
+        
+        <form id="register-form" style="display: none;" onsubmit="handleRegister(event)">
+            <div class="input-group">
+                <label>Nom d'utilisateur</label>
+                <input type="text" id="register-username" required placeholder="Choisissez un pseudo">
+            </div>
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" id="register-email" required placeholder="votre@email.com">
+            </div>
+            <div class="input-group">
+                <label>Mot de passe</label>
+                <input type="password" id="register-password" required placeholder="Choisissez un mot de passe">
+            </div>
+            <button type="submit" class="btn">Créer un compte</button>
+        </form>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content" id="main-content">
+    
+    <!-- Accueil Section -->
+    <section class="section" id="accueil-section">
+        <div class="hero">
+            <h1><i class="fas fa-gamepad"></i> SERVEUR COMMUNAUTAIRE | FR</h1>
+            <p class="subtitle">Une communauté gaming active avec événements et giveaways</p>
+            <div class="hero-buttons">
+                <a href="https://discord.gg/SzY7FwA6Pt" target="_blank" class="hero-btn hero-btn-primary">
+                    <i class="fab fa-discord"></i> Rejoindre le Discord
+                </a>
+                <a href="#shop" onclick="showSection('shop')" class="hero-btn hero-btn-secondary">
+                    <i class="fas fa-shopping-cart"></i> Découvrir la Boutique
+                </a>
+            </div>
+        </div>
+        
+        <h2 class="section-title"><i class="fas fa-fire"></i> Bienvenue sur Notre Communauté</h2>
+        <p style="text-align: center; font-size: 18px; color: rgba(255,255,255,0.7); max-width: 900px; margin: 0 auto 60px; line-height: 1.8;">
+            Plonge dans l'univers d'un serveur Discord dynamique où passionnés de gaming et de convivialité se rencontrent. 
+            Que tu sois un compétiteur acharné ou un joueur casual, tu trouveras ta place parmi nous. 
+            Événements réguliers, giveaways excitants et une communauté toujours partante pour de nouvelles aventures !
+        </p>
+        
+        <h2 class="section-title"><i class="fas fa-trophy"></i> Jeux Principaux</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-fist-raised"></i></div>
+                <h3>Rivals</h3>
+                <p>Des parties fréquentes entre membres du serveur. Affronte tes amis dans des matchs endiablés et montre qui est le meilleur ! Tournois organisés régulièrement avec des récompenses à la clé.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-chess"></i></div>
+                <h3>Magnat de Guerre</h3>
+                <p>Jeu populaire sur Roblox joué par la communauté. Développe ton empire militaire, conquiers des territoires et domine le champ de bataille avec tes alliés.</p>
+            </div>
+        </div>
+        
+        <h2 class="section-title"><i class="fas fa-calendar-alt"></i> Événements & Giveaways</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-party-horn"></i></div>
+                <h3>Events Communautaires</h3>
+                <p>Des événements communautaires organisés très souvent. Soirées jeux, quiz, karaoké, et bien plus encore. Chaque semaine, de nouvelles surprises t'attendent pour passer du bon temps ensemble.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-gift"></i></div>
+                <h3>Giveaways Réguliers</h3>
+                <p>De nombreux giveaways sont organisés régulièrement. Nitro Discord, jeux Steam, rôles exclusifs et bien d'autres lots à gagner. Plus tu es actif, plus tu as de chances de gagner !</p>
+            </div>
+        </div>
+        
+        <h2 class="section-title"><i class="fas fa-crown"></i> Classement Hebdomadaire</h2>
+        <div class="leaderboard">
+            <div class="leaderboard-item">
+                <div class="leaderboard-rank gold"><i class="fas fa-medal"></i></div>
+                <div class="leaderboard-info">
+                    <div class="leaderboard-name">✍ Meilleur Écrivain</div>
+                    <div class="leaderboard-stats">Le membre le plus actif dans les salons texte - Messages de qualité et ambiance garantie</div>
+                </div>
+            </div>
+            
+            <div class="leaderboard-item">
+                <div class="leaderboard-rank silver"><i class="fas fa-medal"></i></div>
+                <div class="leaderboard-info">
+                    <div class="leaderboard-name">🎤 Roi du Vocal</div>
+                    <div class="leaderboard-stats">Le membre qui passe le plus de temps en vocal - Toujours partant pour discuter et jouer</div>
+                </div>
+            </div>
+            
+            <div class="leaderboard-item">
+                <div class="leaderboard-rank bronze"><i class="fas fa-medal"></i></div>
+                <div class="leaderboard-info">
+                    <div class="leaderboard-name">🎮 MVP de la Semaine</div>
+                    <div class="leaderboard-stats">Le joueur qui se démarque par son skill et sa bonne humeur pendant les parties</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Shop Section -->
+    <section class="section" id="shop-section" style="display: none;">
+        <h2 class="section-title"><i class="fas fa-shopping-cart"></i> Boutique</h2>
+        
+        <div class="shop-grid">
+            <div class="shop-card">
+                <div class="role-icon" style="color: #ff6b6b;">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <h3>VIP</h3>
+                <p class="description">Accès prioritaire aux événements, salon VIP exclusif et couleur personnalisée.</p>
+                <div class="price"><i class="fas fa-coins"></i> 5000</div>
+                <button class="btn" onclick="buyRole('VIP', 5000)">Acheter</button>
+            </div>
+            
+            <div class="shop-card">
+                <div class="role-icon" style="color: #4ecdc4;">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <h3>VIP +</h3>
+                <p class="description">Tous les avantages VIP + rôle spécial, accès anticipé aux nouveautés et badge exclusif.</p>
+                <div class="price"><i class="fas fa-coins"></i> 10000</div>
+                <button class="btn" onclick="buyRole('VIP+', 10000)">Acheter</button>
+            </div>
+            
+            <div class="shop-card">
+                <div class="role-icon" style="color: #ffe66d;">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h3>Légende</h3>
+                <p class="description">Le rôle ultime ! Accès total, commandes spéciales, et reconnaissance sur le serveur.</p>
+                <div class="price"><i class="fas fa-coins"></i> 25000</div>
+                <button class="btn" onclick="buyRole('Légende', 25000)">Acheter</button>
+            </div>
+            
+            <!-- Mystery Box -->
+            <div class="shop-card mystery-box" id="box">
+                <h3><i class="fas fa-gift"></i> Box Mystère</h3>
+                <p class="description">Tentez votre chance pour gagner l'un des 3 rôles exclusifs ! Probabilités très faibles mais gains énormes !</p>
+                <div class="price"><i class="fas fa-coins"></i> 2000</div>
+                <div class="box-animation" onclick="openBox()">
+                    <div class="box" id="mystery-box">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+                </div>
+                <button class="btn" onclick="openBox()" style="max-width: 300px; margin: 0 auto;">
+                    Ouvrir la Box (<i class="fas fa-coins"></i> 2000)
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Wheel Container -->
+    <div class="wheel-container" id="wheel-container">
+        <div class="close-wheel" onclick="closeWheel()"><i class="fas fa-times"></i></div>
+        <div class="wheel-wrapper">
+            <div class="wheel-pointer"></div>
+            <div class="wheel" id="wheel">
+                <div class="wheel-center"><i class="fas fa-star"></i></div>
+            </div>
+        </div>
+        <button class="spin-btn" id="spin-btn" onclick="spinWheel()">LANCER LA ROUE !</button>
+    </div>
+    
+    <!-- Staff Section -->
+    <section class="section" id="staff-section" style="display: none;">
+        <h2 class="section-title"><i class="fas fa-users-cog"></i> Équipe Staff</h2>
+        
+        <div class="shop-grid">
+            <div class="shop-card">
+                <div class="role-icon"><i class="fas fa-crown" style="color: #ff0000;"></i></div>
+                <h3>Fondateur</h3>
+                <p style="color: var(--primary); font-weight: 700;">Leandre</p>
+                <p style="margin-top: 10px; opacity: 0.7;">Créateur et propriétaire du serveur</p>
+            </div>
+            
+            <div class="shop-card">
+                <div class="role-icon"><i class="fas fa-crown" style="color: #ff6600;"></i></div>
+                <h3>Co-Fondateur</h3>
+                <p style="color: var(--primary); font-weight: 700;">nezix291</p>
+                <p style="margin-top: 10px; opacity: 0.7;">Gestion et développement</p>
+            </div>
+            
+            <div class="shop-card">
+                <div class="role-icon"><i class="fas fa-crown" style="color: #ff6600;"></i></div>
+                <h3>Co-Fondateur</h3>
+                <p style="color: var(--primary); font-weight: 700;">bap_4real</p>
+                <p style="margin-top: 10px; opacity: 0.7;">Community Manager</p>
+            </div>
+            
+            <div class="shop-card">
+                <div class="role-icon"><i class="fas fa-shield-alt" style="color: #00ff00;"></i></div>
+                <h3>Équipe Staff</h3>
+                <p style="color: var(--primary); font-weight: 700;">9 Membres</p>
+                <p style="margin-top: 10px; opacity: 0.7;">Modérateurs et administrateurs actifs</p>
+            </div>
+        </div>
+        
+        <!-- Admin Panel (Visible only for admins) -->
+        <div class="admin-panel" id="admin-panel" style="display: none; margin-top: 60px;">
+            <h2 class="section-title" style="color: var(--gold);"><i class="fas fa-user-shield"></i> Panel Admin</h2>
+            <div class="admin-grid">
+                <div class="admin-card">
+                    <h3><i class="fas fa-users"></i> Utilisateurs</h3>
+                    <div class="user-list" id="user-list">
+                        <!-- Users will be loaded here -->
+                    </div>
+                </div>
+                <div class="admin-card">
+                    <h3><i class="fas fa-coins"></i> Donner des coins</h3>
+                    <div class="input-group">
+                        <label>Sélectionner un utilisateur</label>
+                        <select id="admin-user-select" style="width: 100%; padding: 10px; background: rgba(255,255,255,0.1); border: 1px solid var(--gold); border-radius: 8px; color: white;">
+                            <option value="">Choisir...</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Montant</label>
+                        <input type="number" id="admin-amount" placeholder="Quantité de coins">
+                    </div>
+                    <button class="btn" onclick="giveCoins()" style="background: linear-gradient(45deg, var(--gold), #ffaa00);">
+                        Donner des coins
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Partners Section -->
+    <section class="section" id="partners-section" style="display: none;">
+        <h2 class="section-title"><i class="fas fa-handshake"></i> Nos Partenaires</h2>
+        
+        <div class="partners-grid">
+            <a href="https://discord.gg/8DRveNynwr" target="_blank" class="partner-card">
+                <h4>Zeyko</h4>
+                <p>Communauté gaming active</p>
+                <i class="fab fa-discord" style="font-size: 30px; margin-top: 10px; color: var(--secondary);"></i>
+            </a>
+            
+            <a href="https://discord.gg/Cd4SpqC2sb" target="_blank" class="partner-card">
+                <h4>MineStream</h4>
+                <p>Streaming et divertissement</p>
+                <i class="fab fa-discord" style="font-size: 30px; margin-top: 10px; color: var(--secondary);"></i>
+            </a>
+            
+            <a href="https://discord.gg/zbzpyC3g" target="_blank" class="partner-card">
+                <h4>The New Valdoria | FR</h4>
+                <p>Serveur communautaire FR</p>
+                <i class="fab fa-discord" style="font-size: 30px; margin-top: 10px; color: var(--secondary);"></i>
+            </a>
+            
+            <a href="https://discord.gg/sMGXQyYrBn" target="_blank" class="partner-card">
+                <h4>Mioxss Community</h4>
+                <p>Communauté passionnée</p>
+                <i class="fab fa-discord" style="font-size: 30px; margin-top: 10px; color: var(--secondary);"></i>
+            </a>
+        </div>
+    </section>
+</div>
+
+<!-- Footer -->
+<footer>
+    <a href="https://discord.gg/SzY7FwA6Pt" target="_blank" class="discord-btn">
+        <i class="fab fa-discord"></i> Rejoindre le Discord
+    </a>
+    <p style="margin-top: 20px; opacity: 0.7;">© 2026 Serveur Communautaire | FR - Tous droits réservés</p>
+    <p style="margin-top: 10px; font-size: 14px; opacity: 0.5;">Développé avec <i class="fas fa-heart" style="color: #ff0000;"></i> par nezix291 pour la communauté</p>
+</footer>
+
+<!-- Notification -->
+<div class="notification" id="notification">
+    <div id="notification-content"></div>
+</div>
+
+<script>
+// Webhook Discord
+const WEBHOOK_URL = 'https://discord.com/api/webhooks/1484252585140686879/uOpq8ltr4lR7Dq-fpDURBGxMDqUubX0boxdUcJSRz6sNsQUh48FvP3NFvO3Gg_GQ4Cll';
+
+// Database simulation with localStorage
+const DB = {
+    getUsers: () => JSON.parse(localStorage.getItem('users') || '[]'),
+    saveUser: (user) => {
+        const users = DB.getUsers();
+        const index = users.findIndex(u => u.username === user.username);
+        if (index >= 0) {
+            users[index] = user;
+        } else {
+            users.push(user);
+        }
+        localStorage.setItem('users', JSON.stringify(users));
+    },
+    getCurrentUser: () => JSON.parse(localStorage.getItem('currentUser') || 'null'),
+    setCurrentUser: (user) => localStorage.setItem('currentUser', JSON.stringify(user))
+};
+
+// Current user state
+let currentUser = null;
+
+// Initialize
+window.onload = () => {
+    // Initialize demo user with admin rights
+    const users = DB.getUsers();
+    const demoPassword = '0104298378425863598436856';
+    const demoUser = {
+        username: 'démo',
+        email: 'demo@serveur.fr',
+        password: demoPassword,
+        coins: 5000,
+        roles: [],
+        isAdmin: true, // ADMIN RIGHTS FOR DEMO
+        createdAt: new Date().toISOString()
+    };
+
+    const existingIndex = users.findIndex(u => u.username === 'démo');
+    
+    if (existingIndex >= 0) {
+        // Update existing user
+        users[existingIndex].password = demoPassword;
+        users[existingIndex].isAdmin = true; // Ensure admin rights
+        DB.saveUser(users[existingIndex]);
+    } else {
+        // Create new user
+        DB.saveUser(demoUser);
+    }
+    
+    currentUser = DB.getCurrentUser();
+    if (currentUser) {
+        showMainContent();
+    }
+};
+
+// Auth Functions
+function switchTab(tab) {
+    const tabs = document.querySelectorAll('.auth-tab');
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    
+    tabs.forEach(t => t.classList.remove('active'));
+    
+    if (tab === 'login') {
+        tabs[0].classList.add('active');
+        loginForm.style.display = 'block';
+        registerForm.style.display = 'none';
+    } else {
+        tabs[1].classList.add('active');
+        loginForm.style.display = 'none';
+        registerForm.style.display = 'block';
+    }
+}
+
+async function handleRegister(e) {
+    e.preventDefault();
+    const username = document.getElementById('register-username').value;
+    const email = document.getElementById('register-email').value;
+    const password = document.getElementById('register-password').value;
+    
+    const users = DB.getUsers();
+    if (users.find(u => u.username === username)) {
+        showNotification('Ce nom d\'utilisateur existe déjà !', 'error');
+        return;
+    }
+    
+    const newUser = {
+        username,
+        email,
+        password,
+        coins: 1000,
+        roles: [],
+        isAdmin: false,
+        createdAt: new Date().toISOString()
+    };
+    
+    DB.saveUser(newUser);
+    showNotification('Compte créé avec succès ! Connectez-vous.', 'success');
+    
+    await sendToWebhook('Nouvelle inscription', `**${username}** vient de créer un compte !`, 0x00ff00);
+    
+    switchTab('login');
+}
+
+async function handleLogin(e) {
+    e.preventDefault();
+    const username = document.getElementById('login-username').value;
+    const password = document.getElementById('login-password').value;
+    
+    const users = DB.getUsers();
+    const user = users.find(u => u.username === username && u.password === password);
+    
+    if (!user) {
+        showNotification('Identifiants incorrects !', 'error');
+        return;
+    }
+    
+    currentUser = user;
+    DB.setCurrentUser(user);
+    showMainContent();
+    
+    await sendToWebhook('Connexion', `**${username}** s'est connecté(e) au site !`, 0x5865F2);
+}
+
+function logout() {
+    currentUser = null;
+    localStorage.removeItem('currentUser');
+    document.getElementById('auth-container').style.display = 'flex';
+    document.getElementById('main-content').style.display = 'none';
+    document.getElementById('navbar').style.display = 'none';
+}
+
+function showMainContent() {
+    document.getElementById('auth-container').style.display = 'none';
+    document.getElementById('main-content').style.display = 'block';
+    document.getElementById('navbar').style.display = 'flex';
+    updateUserDisplay();
+    showSection('accueil');
+    
+    if (currentUser && currentUser.isAdmin) {
+        document.getElementById('admin-panel').style.display = 'block';
+        loadAdminPanel();
+    }
+}
+
+function updateUserDisplay() {
+    if (!currentUser) return;
+    document.getElementById('username-display').textContent = currentUser.username;
+    document.getElementById('user-coins').textContent = currentUser.coins;
+}
+
+// Shop Functions
+async function buyRole(roleName, price) {
+    if (!currentUser) return;
+    
+    if (currentUser.coins < price) {
+        showNotification('Coins insuffisants !', 'error');
+        return;
+    }
+    
+    if (currentUser.roles.includes(roleName)) {
+        showNotification('Vous possédez déjà ce rôle !', 'error');
+        return;
+    }
+    
+    currentUser.coins -= price;
+    currentUser.roles.push(roleName);
+    DB.saveUser(currentUser);
+    DB.setCurrentUser(currentUser);
+    updateUserDisplay();
+    
+    showNotification(`Félicitations ! Vous avez acheté le rôle **${roleName}** !`, 'success');
+    
+    await sendToWebhook('Achat Boutique', `**${currentUser.username}** a acheté le rôle **${roleName}** pour ${price} coins !`, 0x00ffff);
+}
+
+// Box & Wheel Functions
+let boxOpened = false;
+
+async function openBox() {
+    if (!currentUser) return;
+    
+    if (currentUser.coins < 2000) {
+        showNotification('Il vous faut 2000 coins pour ouvrir cette box !', 'error');
+        return;
+    }
+    
+    if (boxOpened) {
+        showNotification('Vous avez déjà ouvert une box aujourd\'hui ! Revenez demain.', 'error');
+        return;
+    }
+    
+    currentUser.coins -= 2000;
+    DB.saveUser(currentUser);
+    DB.setCurrentUser(currentUser);
+    updateUserDisplay();
+    
+    const box = document.getElementById('mystery-box');
+    box.classList.add('opening');
+    
+    setTimeout(() => {
+        box.classList.remove('opening');
+        showWheel();
+    }, 1000);
+}
+
+function showWheel() {
+    document.getElementById('wheel-container').style.display = 'flex';
+    createWheel();
+}
+
+function closeWheel() {
+    document.getElementById('wheel-container').style.display = 'none';
+}
+
+function createWheel() {
+    const wheel = document.getElementById('wheel');
+    wheel.innerHTML = '<div class="wheel-center"><i class="fas fa-star"></i></div>';
+    
+    const prizes = [
+        { name: 'Rien', color: '#333', chance: 70 },
+        { name: '100 Coins', color: '#ffd700', chance: 20 },
+        { name: '500 Coins', color: '#ffaa00', chance: 7 },
+        { name: 'VIP', color: '#ff6b6b', chance: 1.5 },
+        { name: 'VIP+', color: '#4ecdc4', chance: 1 },
+        { name: 'LÉGENDE', color: '#ffe66d', chance: 0.5 }
+    ];
+    
+    const segmentAngle = 360 / prizes.length;
+    
+    prizes.forEach((prize, index) => {
+        const segment = document.createElement('div');
+        segment.className = 'wheel-segment';
+        segment.style.background = prize.color;
+        segment.style.transform = `rotate(${index * segmentAngle}deg) skewY(-${90 - segmentAngle}deg)`;
+        segment.style.transformOrigin = 'bottom right';
+        segment.innerHTML = `<span style="transform: skewY(${90 - segmentAngle}deg) rotate(${segmentAngle/2}deg); display: block; position: absolute; left: 20px; bottom: 40px; width: 100px;">${prize.name}</span>`;
+        wheel.appendChild(segment);
+    });
+    
+    wheel.dataset.prizes = JSON.stringify(prizes);
+    wheel.dataset.rotation = 0;
+}
+
+async function spinWheel() {
+    const wheel = document.getElementById('wheel');
+    const btn = document.getElementById('spin-btn');
+    btn.disabled = true;
+    
+    const prizes = JSON.parse(wheel.dataset.prizes);
+    
+    const random = Math.random() * 100;
+    let cumulative = 0;
+    let selectedIndex = 0;
+    
+    for (let i = 0; i < prizes.length; i++) {
+        cumulative += prizes[i].chance;
+        if (random <= cumulative) {
+            selectedIndex = i;
+            break;
+        }
+    }
+    
+    const segmentAngle = 360 / prizes.length;
+    const extraSpins = 5;
+    const targetRotation = extraSpins * 360 + (360 - (selectedIndex * segmentAngle));
+    
+    wheel.style.transform = `rotate(${targetRotation}deg)`;
+    
+    setTimeout(() => {
+        const prize = prizes[selectedIndex];
+        handleWheelResult(prize);
+        btn.disabled = false;
+        boxOpened = true;
+    }, 4000);
+}
+
+async function handleWheelResult(prize) {
+    let message = '';
+    let color = 0xff00ff;
+    
+    if (prize.name === 'Rien') {
+        message = 'Dommage... Vous n\'avez rien gagné !';
+        color = 0x888888;
+    } else if (prize.name.includes('Coins')) {
+        const amount = parseInt(prize.name);
+        currentUser.coins += amount;
+        DB.saveUser(currentUser);
+        DB.setCurrentUser(currentUser);
+        updateUserDisplay();
+        message = `Félicitations ! Vous gagnez **${amount} coins** !`;
+        color = 0x00ff00;
+    } else {
+        if (!currentUser.roles.includes(prize.name)) {
+            currentUser.roles.push(prize.name);
+            DB.saveUser(currentUser);
+            DB.setCurrentUser(currentUser);
+            message = `INCROYABLE ! Vous gagnez le rôle **${prize.name}** !`;
+            color = 0xffd700;
+        } else {
+            message = `Vous avez déjà le rôle ${prize.name}. Vous recevez 5000 coins en compensation.`;
+            currentUser.coins += 5000;
+            DB.saveUser(currentUser);
+            DB.setCurrentUser(currentUser);
+            updateUserDisplay();
+            color = 0x00ffff;
+        }
+    }
+    
+    showNotification(message, prize.name === 'Rien' ? 'error' : 'success');
+    
+    await sendToWebhook('Box Mystère', `**${currentUser.username}** a ouvert une box et a gagné : **${prize.name}** !`, color);
+    
+    setTimeout(() => {
+        closeWheel();
+    }, 3000);
+}
+
+// Admin Panel Functions
+function loadAdminPanel() {
+    const users = DB.getUsers();
+    const userList = document.getElementById('user-list');
+    const select = document.getElementById('admin-user-select');
+    
+    userList.innerHTML = '';
+    select.innerHTML = '<option value="">Choisir...</option>';
+    
+    users.forEach(user => {
+        const div = document.createElement('div');
+        div.className = 'user-item';
+        
+        const userInfo = document.createElement('div');
+        userInfo.className = 'user-info-admin';
+        userInfo.innerHTML = `
+            <strong>${user.username}${user.isAdmin ? '<span class="admin-badge">ADMIN</span>' : ''}</strong><br>
+            <small>Coins: ${user.coins} | Rôles: ${user.roles.join(', ') || 'Aucun'}</small>
+        `;
+        
+        const actions = document.createElement('div');
+        actions.style.display = 'flex';
+        actions.style.gap = '10px';
+        actions.style.flexWrap = 'wrap';
+        
+        if (!user.isAdmin && user.username !== currentUser.username) {
+            const promoteBtn = document.createElement('button');
+            promoteBtn.className = 'btn btn-small btn-admin';
+            promoteBtn.innerHTML = '<i class="fas fa-user-shield"></i> Admin';
+            promoteBtn.onclick = () => promoteToAdmin(user.username);
+            actions.appendChild(promoteBtn);
+        }
+        
+        div.appendChild(userInfo);
+        div.appendChild(actions);
+        userList.appendChild(div);
+        
+        const option = document.createElement('option');
+        option.value = user.username;
+        option.textContent = `${user.username} (${user.coins} coins)${user.isAdmin ? ' [ADMIN]' : ''}`;
+        select.appendChild(option);
+    });
+}
+
+async function promoteToAdmin(username) {
+    if (!confirm(`Voulez-vous vraiment promouvoir ${username} au rang d'administrateur ?`)) {
+        return;
+    }
+    
+    const users = DB.getUsers();
+    const userIndex = users.findIndex(u => u.username === username);
+    
+    if (userIndex === -1) {
+        showNotification('Utilisateur non trouvé', 'error');
+        return;
+    }
+    
+    users[userIndex].isAdmin = true;
+    DB.saveUser(users[userIndex]);
+    
+    showNotification(`${username} est maintenant administrateur !`, 'success');
+    
+    await sendToWebhook('Admin - Promotion', `**${currentUser.username}** a promu **${username}** au rang d'**ADMINISTRATEUR** !`, 0xffd700);
+    
+    loadAdminPanel();
+}
+
+async function giveCoins() {
+    const username = document.getElementById('admin-user-select').value;
+    const amount = parseInt(document.getElementById('admin-amount').value);
+    
+    if (!username || !amount || amount <= 0) {
+        showNotification('Veuillez sélectionner un utilisateur et entrer un montant valide', 'error');
+        return;
+    }
+    
+    const users = DB.getUsers();
+    const userIndex = users.findIndex(u => u.username === username);
+    
+    if (userIndex === -1) {
+        showNotification('Utilisateur non trouvé', 'error');
+        return;
+    }
+    
+    users[userIndex].coins += amount;
+    DB.saveUser(users[userIndex]);
+    
+    showNotification(`${amount} coins donnés à ${username} !`, 'success');
+    
+    await sendToWebhook('Admin - Coins donnés', `**${currentUser.username}** a donné **${amount} coins** à **${username}**`, 0xffd700);
+    
+    loadAdminPanel();
+}
+
+// Navigation
+function showSection(section) {
+    document.getElementById('accueil-section').style.display = 'none';
+    document.getElementById('shop-section').style.display = 'none';
+    document.getElementById('staff-section').style.display = 'none';
+    document.getElementById('partners-section').style.display = 'none';
+    
+    if (section === 'accueil') {
+        document.getElementById('accueil-section').style.display = 'block';
+        window.scrollTo(0, 0);
+    } else if (section === 'shop') {
+        document.getElementById('shop-section').style.display = 'block';
+        window.scrollTo(0, 0);
+    } else if (section === 'box') {
+        document.getElementById('shop-section').style.display = 'block';
+        window.scrollTo(0, 0);
+        setTimeout(() => {
+            document.getElementById('box').scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+    } else if (section === 'staff') {
+        document.getElementById('staff-section').style.display = 'block';
+        window.scrollTo(0, 0);
+    } else if (section === 'partners') {
+        document.getElementById('partners-section').style.display = 'block';
+        window.scrollTo(0, 0);
+    }
+}
+
+// Notification System
+function showNotification(message, type = 'info') {
+    const notif = document.getElementById('notification');
+    const content = document.getElementById('notification-content');
+    
+    content.innerHTML = message;
+    notif.className = 'notification ' + type;
+    notif.classList.add('show');
+    
+    setTimeout(() => {
+        notif.classList.remove('show');
+    }, 5000);
+}
+
+// Discord Webhook
+async function sendToWebhook(title, message, color) {
+    try {
+        const embed = {
+            title: title,
+            description: message,
+            color: color,
+            timestamp: new Date().toISOString(),
+            footer: {
+                text: 'Serveur Communautaire | FR'
+            }
+        };
+        
+        await fetch(WEBHOOK_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                embeds: [embed]
+            })
+        });
+    } catch (error) {
+        console.error('Webhook error:', error);
+    }
+}
+</script>
+
+</body>
+</html>
